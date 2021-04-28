@@ -9,7 +9,8 @@ char *ft_strjoin(char const *s1, char const *s2)
 	i = ft_strlen(s1);
 	j = ft_strlen(s2);
 	new  = malloc(sizeof(char) * (i+j+1));
-
+	if(!new || !s1 || !s2)
+		return(NULL);
 	k = -1;
 	while(++k<i)
 		new[k] = s1[k];

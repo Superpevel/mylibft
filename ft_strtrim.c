@@ -1,43 +1,62 @@
 
 #include "libft.h"
 
-int ft_strchr2(char s, char *c)
-{
-	size_t i= 0;
-	while(i< ft_strlen(c))
-	{
-		if(c[i]== s)
-		{
-			return(1);
-		}
-		i++;
-	}
-	return(0);
-}
 
-char *ft_strtrim(char *s1, char *set)
+
+size_t get_len_before(char *s, char *set)
 {
 	size_t i = 0;
 	size_t j = 0;
-	size_t k = 0;
-	char *new;
-	while(i<ft_strlen(s1))
+	while(s[i] != '\0')
 	{
-		if(ft_strchr2(s1[i],set))
-			j++;
-		i++;
-	}
-	new = malloc(sizeof(char)*(ft_strlen(s1)-i+2));
-	i =0;
-	while(i<ft_strlen(s1))
-	{
-		if(!(ft_strchr2(s1[i],set)))
+		j= 0 ;
+		while (set[j] != '\0')
 		{
-			new[k] = s1[i];
-			k++;
+			if(s[i] == set[j])
+				j++;
+			else
+				return(i);
 		}
 		i++;
 	}
+	return(i);
+}
+int get_len_after(char *s, char *set)
+{
+	size_t i = ft_strlen(s);
+	size_t j = 0;
+	size_t lol = 0;
+	while(i--)
+	{
+		j= 0;
+		while (set[j] != '\0')
+		{
+			if(s[i] != set[j])
+				return(lol);
+			j++;
+		}
+		lol++;
+	}
+	return(lol);
+}
+char *ft_strtrim(char *s, char *set)
+{
+	size_t i ;
+	size_t j;
+	int k = 0;
+	char *new;
+	i = get_len_before(s,set);
+	printf("%zu",i);
+	j = get_len_after(s,set);
+	new = malloc(sizeof(char)*(ft_strlen(s)-get_len_before(s,set)- get_len_after(s,set)+1));
+	while(i < ft_strlen(s)- j)
+	{
+		new[k] = s[i];
+		i++;
+		k++;
+	}
 	new[k] = '\0';
+	// printf("%s",new);
 	return(new);
 }
+
