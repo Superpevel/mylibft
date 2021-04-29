@@ -1,29 +1,31 @@
 #include	"libft.h"
 
-size_t ft_strlen1(const char *s)
+size_t	ft_strlen1(const char *s)
 {
-	size_t i;
+	size_t	i;
+
 	i = 0;
-	while(s[i] !='\0')
+	while (s[i] != '\0')
 	{
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
-size_t ft_strlcpy(char *dest,const char *src,size_t size)
+size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize)
 {
-	size_t i = 0;
+	size_t	i;
 
-	if(!size)
-		return(ft_strlen1(src));
-	if(!dest && !src)
-		return(0);
-	while((src[i] != '\0'  && i<size-1))
+	i = 0;
+	if (!dstsize)
+		return (ft_strlen1(src));
+	if (!dst && !src)
+		return (0);
+	while ((src[i] != '\0' && i < dstsize - 1))
 	{
-		dest[i] = src[i];
+		dst[i] = src[i];
 		i++;
 	}
-	dest[i] = '\0';
-	return(ft_strlen1(src));
+	dst[i] = '\0';
+	return (ft_strlen1(src));
 }

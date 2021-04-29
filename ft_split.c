@@ -1,17 +1,8 @@
 #include "libft.h"
-#include "libft.h"
 
-void	ft_strdel(char **as)
-{
-	if (as && *as)
-	{
-		free(*as);
-		*as = NULL;
-	}
-}
 static size_t	ft_count_words(char const *s, char c)
 {
-	size_t words;
+	size_t	words;
 
 	words = 0;
 	while (*s)
@@ -20,17 +11,17 @@ static size_t	ft_count_words(char const *s, char c)
 			s++;
 		if (*s)
 		{
-			words++;
 			while (*s && *s != c)
 				s++;
+			words++;
 		}
 	}
 	return (words);
 }
 
-static char		*ft_get_word(char *word, char c)
+static char	*ft_get_word(char *word, char c)
 {
-	char *start;
+	char	*start;
 
 	start = word;
 	while (*word && *word != c)
@@ -38,29 +29,14 @@ static char		*ft_get_word(char *word, char c)
 	*word = '\0';
 	return (ft_strdup(start));
 }
-void	*ft_memalloc(size_t size)
-{
-	void *ptr;
 
-	if ((ptr = malloc(size)))
-		ft_bzero(ptr, size);
-	return (ptr);
-}
-static void		ft_free_words(char **words, size_t i)
-{
-	while (i--)
-		ft_strdel(&(words[i]));
-	free(*words);
-}
-
-static char		**ft_get_words(char *s, char c, size_t words_count)
+char	**ft_get_words(char *s, char c, size_t words_count, size_t i)
 {
 	char	**words;
 	char	*word;
-	size_t	i;
 
-	i = 0;
-	if ((words = (char **)ft_memalloc(sizeof(char *) * (words_count + 1))))
+	words = (char **)ft_memloc_bonus(sizeof(char *) * (words_count + 1));
+	if (words)
 	{
 		while (i < words_count)
 		{
@@ -68,9 +44,10 @@ static char		**ft_get_words(char *s, char c, size_t words_count)
 				s++;
 			if (*s)
 			{
-				if (!(word = ft_get_word(s, c)))
+				word = ft_get_word(s, c);
+				if (!(word))
 				{
-					ft_free_words(words, i);
+					ft_free_words_bonus(words, i);
 					return (NULL);
 				}
 				words[i++] = word;
@@ -82,15 +59,21 @@ static char		**ft_get_words(char *s, char c, size_t words_count)
 	return (words);
 }
 
-char **ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**words;
 	char	*line;
+	size_t	i;
 
-	if (!s || !(line = ft_strdup((char *)s)))
+	i =0;
+	if (!s)
 		return (NULL);
-	words = ft_get_words(line, c, ft_count_words(line, c));
+	line = ft_strdup((char *)s);
+	if (!line)
+		return (NULL);
+	if (!c)
+		return (NULL);
+	words = ft_get_words(line, c, ft_count_words(line, c), i);
 	free(line);
 	return (words);
 }
-

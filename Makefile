@@ -1,87 +1,36 @@
-NAME = libft.a
-CC = gcc
-FLAGS = -Wall -Werror -Wextra -O3 -c
-INCLUDES = -I$(HEADERS_DIRECTORY)
-HEADERS_LIST = libft.h
-HEADERS_DIRECTORY = ./
-HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
-SOURCES_DIRECTORY = ./
-SOURCES_LIST = ft_memset.c\
-	ft_bzero.c\
-	ft_strlen.c\
-	ft_strncmp.c\
-	ft_toupper.c\
-	ft_tolower.c\
-	ft_isdigit.c\
-	ft_isalpha.c\
-	ft_isalnum.c\
-	ft_isascii.c\
-	ft_isprint.c\
-	ft_memcpy.c\
-	ft_atoi.c\
-	ft_strlcat.c\
-	ft_strchr.c\
-	ft_memmove.c\
-	ft_memcmp.c\
-	ft_strrchr.c\
-	ft_calloc.c\
-	ft_strdup.c\
-	ft_strdup.c\
-	ft_memchr.c\
-	ft_strlcpy.c\
-	ft_memccpy.c\
-	ft_substr.c\
-	ft_strtrim.c\
-	ft_putchar_fd.c\
-	ft_strjoin.c\
-	ft_putstr_fd.c\
-	ft_split.c\
-	ft_putnbr_fd.c\
-	ft_putendl_fd.c\
-	ft_itoa.c\
-	ft_strmapi.c\
-	ft_strnstr.c\
+SRCS			=	ft_isalnum.c ft_isprint.c ft_memcmp.c  ft_putchar_fd.c ft_split.c \
+					ft_strlcat.c ft_strncmp.c ft_substr.c ft_atoi.c ft_isalpha.c \
+					ft_itoa.c ft_memcpy.c  ft_putendl_fd.c ft_strchr.c  ft_strlcpy.c \
+					ft_strnstr.c ft_tolower.c ft_bzero.c   ft_isascii.c ft_memccpy.c \
+					ft_memmove.c ft_putnbr_fd.c  ft_strdup.c  ft_strlen.c  ft_strrchr.c \
+					ft_toupper.c ft_calloc.c  ft_isdigit.c ft_memchr.c  ft_memset.c  \
+					ft_putstr_fd.c  ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_perc_bonus.c
+OBJS			= $(SRCS:.c=.o)
 
-SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
-OBJECTS_DIRECTORY = objects/
-OBJECTS_LIST = $(patsubst %.c, %.o, $(SOURCES_LIST))
-OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
+BONUS			=	ft_lstnew.c ft_lstsize.c ft_lstadd_front.c ft_lstiter.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstmap.c\
+					ft_lstlast.c
+BONUS_OBJS		= $(BONUS:.c=.o)
 
-# COLORS
+CC				= gcc
+RM				= rm -f
+CFLAGS			= -Wall -Wextra -Werror
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-RESET = \033[0m
+NAME			= libft.a
 
-MAKEFLAGS += -j4
+all:			$(NAME)
 
-.PHONY: all clean fclean re
-
-all: $(NAME)
-
-$(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@ar rc $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
-	@echo "\n$(NAME): $(GREEN)object files were created$(RESET)"
-	@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
-
-$(OBJECTS_DIRECTORY):
-	@mkdir -p $(OBJECTS_DIRECTORY)
-	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
-
-$(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
-	@$(CC) $(FLAGS) $(INCLUDES) $< -o $@
-	@echo "$(GREEN).$(RESET)\c"
+$(NAME):		$(OBJS) libft.h Makefile
+				ar rcs $(NAME) $(OBJS)
 
 clean:
-	@rm -rf $(OBJECTS_DIRECTORY)
-	@echo "$(NAME): $(RED)$(OBJECTS_DIRECTORY) was deleted$(RESET)"
-	@echo "$(NAME): $(RED)object files were deleted$(RESET)"
+				$(RM) $(OBJS) $(BONUS_OBJS)
 
-fclean: clean
-	@rm -f $(NAME)
-	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)"
+fclean:			clean
+				$(RM) $(NAME)
 
-re:
-	@$(MAKE) fclean
-	@$(MAKE) all
+re:				fclean $(NAME)
+
+bonus:			$(OBJS) $(BONUS_OBJS)
+				ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+
+.PHONY:			all clean fclean re bonus

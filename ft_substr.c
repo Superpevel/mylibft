@@ -1,21 +1,47 @@
 #include "libft.h"
-char *ft_substr(char const *s, unsigned int start,size_t len)
+
+size_t	max_len(char const *s, unsigned int start)
 {
-	char *sub;
-	size_t i;
-	if(!s)
-		return(NULL);
+	size_t	i;
+
+	i = ft_strlen(s) - start ;
+	return (i);
+}
+
+char	*ft_sub_fill(char const *s, unsigned int start, size_t len, char *sub)
+{
+	size_t	i;
+
 	i = 0;
-	if(!(sub = malloc(sizeof(char)*(len+1))))
-		return(NULL);
-	if (start >= ft_strlen(s))
-		return(sub);
-	while(i<len)
+	while (i < len)
 	{
 		sub[i] = s[start];
 		i++;
 		start++;
 	}
 	sub[i] = '\0';
-	return(sub);
+	return (sub);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*sub;
+	size_t	j;
+
+	if (!s)
+		return (NULL);
+	j = max_len(s, start);
+	if (len < j)
+	{
+		sub = malloc(sizeof(char) * (len + 1));
+		if (!(sub))
+			return (NULL);
+	}
+	else
+		sub = malloc(sizeof(char) * (j + 1));
+	if (!(sub))
+		return (NULL);
+	if (start >= ft_strlen(s))
+		return (sub);
+	return (ft_sub_fill(s, start, len, sub));
 }

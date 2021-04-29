@@ -1,26 +1,26 @@
 #include "libft.h"
-char* ft_strrchr(char *str, int c)
+
+char	*ft_strrchr(const char *s, int c)
 {
-	int i = 0;
-	int lst = -1;
+	int	i;
+	int	lst;
+
+	i = 0;
+	lst = -1;
 	if (c == 0)
+		return ((char *)s + ft_strlen(s));
+	while (s[i] !='\0')
 	{
-		return((char*)str + ft_strlen(str));
+		if (s[i] == c)
+		{
+			lst = i;
+		}
+		i++;
 	}
-	while (str[i] !='\0')
+	if (lst >= 0)
 	{
-	 if(str[i] == c)
-	 {
-		 lst = i;
-	 }
-	i++;
-	}
-	if(lst>=0)
-	{
-		return(((char*)str + lst));
+		return (((char *)s + lst));
 	}
 	else
-	{
-		return(NULL);
-	}
+		return (NULL);
 }
