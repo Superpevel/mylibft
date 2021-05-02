@@ -1,64 +1,68 @@
 #include "libft.h"
-
-char	*ft_checkmax(int n)
+static int	ft_pow(int a, int b)
 {
-	char	*k;
+	int temp;
 
-	if (n == -2147483648)
+	temp = a;
+	while (b > 1)
 	{
-		k = ft_strdup("-2147483648");
-		return (k);
+		a *= temp;
+		b--;
 	}
-	return (NULL);
+	if (b == 0)
+		return (1);
+	return (a);
 }
 
-char	*ft_fill(char *k, int n, int j, int i)
+static char	*ft_itoa2(int i, long int n, int neg)
 {
-	if (n < 0)
-	{
-		k[0] = '-';
-		n = n * -1;
-		i = 2;
-	}
-	else
-		i = 0;
-	k[j] = '\0';
-	while (j-- >= i)
-	{
-		k[j] = (n % 10) + '0';
-		n = n / 10;
-	}
-	return (k);
-}
-
-int	ft_j(int i, int j)
-{
-	while (i > 0)
-	{
-		i = i /10;
-		j++;
-	}
-	return (j);
-}
-
-char	*ft_itoa(int n)
-{
-	int		i;
+	char	*dest;
 	int		j;
-	char	*k;
 
-	i = n;
 	j = 0;
-	if (ft_checkmax(n))
-		return (ft_checkmax((n)));
-	if (n <= 0)
+	if (!(dest = malloc((i + 1) * sizeof(char))))
+		return (0);
+	if (neg == -1)
 	{
-		i = i * -1;
+		dest[0] = '-';
+		n *= neg;
 		j++;
+		i--;
 	}
-	j = ft_j(i, j);
-	k = malloc(sizeof(char) * (j + 1));
-	if (!k)
-		return (NULL);
-	return (ft_fill(k, n, j, i));
+	dest[i] = 0;
+	i--;
+	while (i >= 0)
+	{
+		dest[j] = ((n / ft_pow(10, i)) % 10) + '0';
+		j++;
+		i--;
+	}
+	dest[j] = 0;
+	return (&dest[0]);
+}
+
+char		*ft_itoa(int n)
+{
+	int			i;
+	long int	temp;
+	int			neg;
+	long int	numb;
+
+	temp = n;
+	i = 0;
+	neg = 1;
+	numb = n;
+	if (temp < 0)
+	{
+		i++;
+		temp *= -1;
+		neg = -1;
+	}
+	while (temp >= 10)
+	{
+		i++;
+		temp /= 10;
+	}
+	i++;
+	return (ft_itoa2(i, numb, neg));
 }

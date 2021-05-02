@@ -47,25 +47,29 @@ char	*ft_fills(char *new, size_t i, size_t j, char *s)
 
 char	*ft_strtrim(char *s, char *set)
 {
-	size_t	i;
-	size_t	j;
-	size_t	size;
-	char	*new;
+	int		len;
+	int		i;
+	int		start;
+	char	*dest;
 
-	if (!set || !s)
-		return (NULL);
 	i = 0;
-	size = ft_strlen(s);
-	j = ft_after(s, set);
-	while (ft_is_char(*s, set))
-	{
-		s++;
+	if (!s)
+		return (0);
+	if (!set)
+		return (ft_strdup(s));
+	len = ft_strlen(s);
+	while (s[i] && ft_strchr(set, s[i]))
 		i++;
-	}
-	if (size - i == 0)
+	if (s[i] == '\0')
 		return (ft_strdup(""));
-	new = malloc(sizeof(char) * (size - i - j + 1));
-	if (!new)
-		return (NULL);
-	return (ft_fills(new, i, j, s));
+	len -= i;
+	start = i;
+	i = ft_strlen(s) - 1;
+	while (i > start && ft_strchr(set, s[i]))
+	{
+		i--;
+		len--;
+	}
+	dest = ft_substr(s, start, len);
+	return (dest);
 }

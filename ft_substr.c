@@ -30,6 +30,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
+	if (start >= (unsigned int)ft_strlen(s))
+		return (ft_strdup(""));
 	j = max_len(s, start);
 	if (len < j)
 	{
@@ -41,7 +43,5 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		sub = malloc(sizeof(char) * (j + 1));
 	if (!(sub))
 		return (NULL);
-	if (start >= ft_strlen(s))
-		return (sub);
 	return (ft_sub_fill(s, start, len, sub));
 }

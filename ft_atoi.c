@@ -26,25 +26,26 @@ int	ft_isdigit1 (char c)
 
 int	ft_atoi(const char *str)
 {
-	int	i;
-	int	min;
-	int	rez;
+	int i;
+	int neg;
+	int res;
 
 	i = 0;
-	min = 1;
-	rez = 0;
+	res = 0;
+	neg = 1;
 	while (is_space(str[i]))
 		i++;
-	while (is_oper(str[i]))
+	if (str[i] == '-')
 	{
-		if (str[i] == '-')
-			min = -1 * min;
+		neg = -1;
 		i++;
 	}
-	while (ft_isdigit1(str[i]))
+	else if (str[i] == '+')
+		i++;
+	while (str[i] && (ft_isdigit1(str[i])))
 	{
-		rez = rez * 10 + (str[i] - '0');
+		res = res * 10 + (str[i] - '0');
 		i++;
 	}
-	return (rez * min);
+	return (res * neg);
 }
